@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+$font-family: 'Raleway', sans-serif;
+$font-family2: 'Playfair Display', sans-serif;
+.v-application {
+  [class*='text-'] {
+    color: var(--v-txt-base);
+    font-family: $font-family !important;
+  }
+
+  font-family: $font-family !important;
+  .f-playfair{
+    font-family: $font-family2 !important;
+  }
+}
+.br-6{
+  border-radius: 6px;
+}
