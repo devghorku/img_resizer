@@ -3,19 +3,24 @@
     <v-card class="br-6">
       <v-card-text>
         <div>
-          <div class="d-flex">
-          <v-checkbox class="vcBox"></v-checkbox>
-          <div>
-            <div class="card_title">Instagram Profile Picture</div>
-            <div class="card_subtitle">320 x 320</div>
-          </div>
-          </div>
+          <v-checkbox hide-details
+                      dense
+                      class="align-start"
+                      v-model="imgData.selected">
+            <template v-slot:label>
+              <div>
+                <div v-for="(label,idx) in imgData.labels" :key="idx">{{ label }}</div>
+                <div>{{ imgData.width }} x {{ imgData.height }}</div>
+              </div>
+            </template>
+          </v-checkbox>
           <img id="img" :src="img" alt="" v-show="false"/>
           <canvas ref="canvas" v-show="false"></canvas>
           <v-img :src="crop" :aspect-ratio="imgData.width/imgData.height" class="br-6">
             <div>
-              <v-btn @click="dialog=true" class="ma-2 float-right text-none" small>Adjust position</v-btn>
-
+              <v-btn @click="dialog=true" class="ma-2 float-right text-none" small>
+                Adjust position
+              </v-btn>
             </div>
           </v-img>
         </div>

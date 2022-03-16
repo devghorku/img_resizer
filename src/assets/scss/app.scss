@@ -12,127 +12,27 @@ $font-family2: 'Playfair Display', sans-serif;
   .f-playfair{
     font-family: $font-family2 !important;
   }
+  .f-roboto{
+    font-family: "Roboto",sans-serif!important;
+  }
 }
 .br-6{
   border-radius: 6px;
 }
-.vcBox{
-  margin-top: 0 !important;
-  padding-top: 0 !important;
+.f-24{
+  font-size: 24px;
 }
-.chkbx{
-  margin-top: 8px !important;
-}
-.top{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px;
-}
-.RszIF{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  height: 40px;
-  left: 349px;
-  top: 48px;
-}
-.RszTitle{
-  width: 204px;
-  height: 23px;
-  left: 5px;
-  top: 0px;
-
-  font-family: 'Raleway';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 23px;
-
-  /* Black */
-
-  color: #201925;
-}
-.v-list-item__content, .v-select__selection{
-  font-family: Playfair Display;
+.f-16{
   font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0.5px;
-  text-align: left;
 }
-.subtitle{
-  font-family: Playfair Display;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: center;
-  height: 63px;
-  width: 711px;
-  left: 185px;
-  top: 112px;
-}
-.prev_btn{
-  font-style: normal;
-  line-height: 36px;
-  letter-spacing: 1.25px;
-  text-align: center;
-
-}
-.upload_card{
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  /* Light Grey */
-
-  background: #FBFBFB;
-  border-radius: 20px !important;
-}
-.card_title{
-  font-family: Playfair Display;
+.f-14{
   font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: black;
 }
-.btn2{
-  background-color: #0033FF !important;
-  color: white !important;
-}
-.card_subtitle{
-  position: static;
-  height: 16px;
-  left: 0px;
-  top: 23px;
-
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 400;
+.f-12{
   font-size: 12px;
-  line-height: 16px;
-  /* identical to box height */
-
-  display: flex;
-  align-items: center;
-
-  /* Dark Gray */
-
-  color: #6E6E6E;
-
-
-  /* Inside auto layout */
-
-  flex: none;
-  order: 2;
-  flex-grow: 0;
-  margin: 4px 0px;
+}
+.align-start{
+  .v-input__slot {
+    align-items: baseline;
+  }
 }
