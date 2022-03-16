@@ -31,3 +31,8 @@ $font-family2: 'Playfair Display', sans-serif;
 .f-12{
   font-size: 12px;
 }
+.align-start{
+  .v-input__slot {
+    align-items: baseline;
+  }
+}

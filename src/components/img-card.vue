@@ -3,11 +3,17 @@
     <v-card class="br-6">
       <v-card-text>
         <div>
-          <v-checkbox></v-checkbox>
-          <div>
-            <div>Instagram Profile Picture</div>
-            <div>320 x 320</div>
-          </div>
+          <v-checkbox hide-details
+                      dense
+                      class="align-start"
+                      v-model="imgData.selected">
+            <template v-slot:label>
+              <div>
+                <div v-for="(label,idx) in imgData.labels" :key="idx">{{ label }}</div>
+                <div>{{ imgData.width }} x {{ imgData.height }}</div>
+              </div>
+            </template>
+          </v-checkbox>
           <img id="img" :src="img" alt="" v-show="false"/>
           <canvas ref="canvas" v-show="false"></canvas>
           <v-img :src="crop" :aspect-ratio="imgData.width/imgData.height" class="br-6">
