@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row class="py-6">
       <v-col cols="12" md="6">
 
       </v-col>
@@ -13,10 +13,21 @@
             @change="$emit('input',selected)"
         >
         </v-select>
-        <div>
-<!--          <template v-for="">-->
-<!--            <v-checkbox label=""></v-checkbox>-->
-<!--          </template>-->
+        <div class="d-flex flex-wrap">
+          <template v-for="(item,idx) in imgList">
+            <v-checkbox :key="idx"
+                        class="col-6 col-xl-4"
+                        hide-details
+                        dense
+                        v-model="item.selected">
+              <template v-slot:label>
+                <div>
+                  <div>{{item.name}}</div>
+                  <div>{{item.width}} x {{item.height}}</div>
+                </div>
+              </template>
+            </v-checkbox>
+          </template>
 
         </div>
       </v-col>
@@ -27,6 +38,12 @@
 <script>
 export default {
   name: "img-uploader",
+  props: {
+    imgList: {
+      type: Array,
+      default: () => []
+    },
+  },
   data() {
     return {
       selected: 'instagram',

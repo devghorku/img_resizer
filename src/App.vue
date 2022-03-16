@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <img-uploader v-model="selected"></img-uploader>
+      <img-uploader v-model="selected" :img-list="getList()"></img-uploader>
       <div v-if="selected==='instagram'">
         <preview-block :img="null" :info="instaInfo" :imgList="instagram">
         </preview-block>
@@ -238,5 +238,16 @@ export default {
       },
     ]
   }),
+  methods:{
+    getList(){
+      if(this.selected==='instagram'){
+        return this.instagram
+      }else if(this.selected==='facebook'){
+        return this.faceBook
+      }else if(this.selected==='tiktok'){
+        return this.tiktok
+      }
+    }
+  }
 };
 </script>

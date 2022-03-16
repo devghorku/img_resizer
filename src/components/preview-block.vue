@@ -5,13 +5,19 @@
         <div>
           <div class="d-flex align-center justify-center">
             <div>
-              <v-img :src="info.img" width="40px" height="40px">
+              <v-img :src="info.img"
+                     width="40px"
+                     height="40px">
               </v-img>
             </div>
-            <div class="ml-5 font-weight-bold f-24">{{info.title}}</div>
+            <div class="ml-5 font-weight-bold f-24">
+              {{info.title}}
+            </div>
           </div>
           <div class="d-flex f-playfair desc--text f-16">
-            <div v-html="info.desc" class="my-8 mx-auto text-center" style="max-width: 712px">
+            <div v-html="info.desc"
+                 class="my-8 mx-auto text-center"
+                 style="max-width: 712px">
             </div>
           </div>
 
