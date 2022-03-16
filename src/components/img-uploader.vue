@@ -10,6 +10,7 @@
             solo
             :items="options"
             v-model="selected"
+            @change="$emit('input',selected)"
         >
         </v-select>
         <div>

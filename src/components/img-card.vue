@@ -12,8 +12,9 @@
           <canvas ref="canvas" v-show="false"></canvas>
           <v-img :src="crop" :aspect-ratio="imgData.width/imgData.height" class="br-6">
             <div>
-              <v-btn @click="dialog=true" class="ma-2 float-right text-none" small>Adjust position</v-btn>
-
+              <v-btn @click="dialog=true" class="ma-2 float-right text-none" small>
+                Adjust position
+              </v-btn>
             </div>
           </v-img>
         </div>
