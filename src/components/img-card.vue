@@ -3,10 +3,12 @@
     <v-card class="br-6">
       <v-card-text>
         <div>
-          <v-checkbox></v-checkbox>
+          <div class="d-flex">
+          <v-checkbox class="vcBox"></v-checkbox>
           <div>
-            <div>Instagram Profile Picture</div>
-            <div>320 x 320</div>
+            <div class="card_title">Instagram Profile Picture</div>
+            <div class="card_subtitle">320 x 320</div>
+          </div>
           </div>
           <img id="img" :src="img" alt="" v-show="false"/>
           <canvas ref="canvas" v-show="false"></canvas>

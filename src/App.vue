@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="mt-3">
       <img-uploader></img-uploader>
       <preview-block></preview-block>
     </v-main>

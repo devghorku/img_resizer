@@ -3,18 +3,20 @@
     <v-container>
       <v-card flat max-width="1400px" class="mx-auto transparent">
         <div>
-          <div>
-            <div></div>
-            <div>Resize Images for Instagram</div>
-          </div>
-          <div>
-            Our free image resizer is the perfect tool for businesses and Instagrammers alike.
-            We streamlined the resizing process for Instagram stories, vertical horizontal, and square posts, video
-            thumbnails, and more - with no effort at all!
-          </div>
-          <div>
-            <v-btn>Select All</v-btn>
-            <v-btn>Download</v-btn>
+          <div class="top">
+            <div class="RszIF my-4">
+              <div class="pr-2">In</div>
+              <div><h3>Resize Images for Instagram</h3></div>
+            </div>
+            <div class="subtitle my-2">
+              Our free image resizer is the perfect tool for businesses and Instagrammers alike.
+              We streamlined the resizing process for Instagram stories, vertical horizontal, and square posts, video
+              thumbnails, and more - with no effort at all!
+            </div>
+            <div class="ma-6">
+              <v-btn class="prev_btn mx-3 primary--text">Select All</v-btn>
+              <v-btn class="prev_btn btn2 mx-3">Download</v-btn>
+            </div>
           </div>
           <masonry :cols="{default: 4, 1000: 3, 700: 2, 400: 1}"
                    :gutter="{default: '30px', 700: '15px'}">
