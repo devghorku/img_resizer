@@ -11,12 +11,12 @@
               </v-img>
             </div>
             <div class="ml-5 font-weight-bold f-24">
-              {{info.title}}
+              <h3>{{info.title}}</h3>
             </div>
           </div>
           <div class="d-flex f-playfair desc--text f-16">
             <div v-html="info.desc"
-                 class="my-8 mx-auto text-center"
+                 class="my-8 mx-auto text-center f-playfair"
                  style="max-width: 712px">
             </div>
           </div>

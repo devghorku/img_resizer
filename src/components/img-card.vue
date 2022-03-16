@@ -8,9 +8,9 @@
                       class="align-start"
                       v-model="imgData.selected">
             <template v-slot:label>
-              <div>
-                <div v-for="(label,idx) in imgData.labels" :key="idx">{{ label }}</div>
-                <div>{{ imgData.width }} x {{ imgData.height }}</div>
+              <div class="ct">
+                <div v-for="(label,idx) in imgData.labels" :key="idx" class="f-playfair f-14 font-weight-normal">{{ label }}</div>
+                <div class="f-playfair f-12 font-weight-normal">{{ imgData.width }} x {{ imgData.height }}</div>
               </div>
             </template>
           </v-checkbox>
