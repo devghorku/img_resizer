@@ -3,7 +3,7 @@
     <v-row class="py-6">
       <v-col cols="12" md="6">
         <v-card class="transparent" flat>
-          <v-card class="br-6 d-flex sky" height="400px" outlined>
+          <v-card class="br-20 d-flex sky" height="400px" outlined>
             <div class="ma-auto text-center">
               <div class="text-center ">
                 <v-img :src="require('@/assets/img/drop.svg')" width="120px" class="mx-auto"></v-img>
