@@ -10,14 +10,19 @@
             <template v-slot:label>
               <div class="ct">
                 <div v-for="(label,idx) in imgData.labels" :key="idx"
-                     class="f-playfair f-14 font-weight-normal txt--text">{{ label }}</div>
-                <div class="f-playfair f-12 font-weight-normal desc--text">{{ imgData.width }} x {{ imgData.height }}</div>
+                     class="f-playfair f-14 font-weight-normal txt--text">{{ label }}
+                </div>
+                <div class="f-playfair f-12 font-weight-normal desc--text">{{ imgData.width }} x {{
+                    imgData.height
+                  }}
+                </div>
               </div>
             </template>
           </v-checkbox>
           <div v-else>
             <div v-for="(label,idx) in imgData.labels" :key="idx"
-                 class="f-playfair f-14 font-weight-normal">{{ label }}</div>
+                 class="f-playfair f-14 font-weight-normal">{{ label }}
+            </div>
             <div class="f-playfair f-12 font-weight-normal desc--text">
               {{ imgData.width }} x {{ imgData.height }}
             </div>
@@ -46,6 +51,9 @@
     </v-card>
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
+        <v-card-title>
+          Adjust Position
+        </v-card-title>
         <v-card-text>
           <cropper
               class="cropper"
@@ -56,8 +64,11 @@
               @change="change"
           ></cropper>
         </v-card-text>
-        <v-card-actions>
-          <v-btn @click="resize">
+        <v-card-actions class="justify-end">
+          <v-btn @click="dialog=false" color="primary" class="mb-3 text-none f-roboto px-3" outlined>
+            Cancel
+          </v-btn>
+          <v-btn @click="resize" color="primary" class="mb-3 text-none f-roboto px-3">
             Done
           </v-btn>
         </v-card-actions>
@@ -79,13 +90,13 @@ export default {
       default: () => {
       }
     },
-    img:{
-      type:String,
-      default:()=>''
+    img: {
+      type: String,
+      default: () => ''
     },
-    single:{
-      default:false,
-      type:Boolean
+    single: {
+      default: false,
+      type: Boolean
     }
   },
   data() {
@@ -113,6 +124,6 @@ export default {
 <style scoped>
 .cropper {
   /*width: 100%;*/
-  height: 600px;
+  height: 500px;
 }
 </style>
