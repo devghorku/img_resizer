@@ -10,8 +10,8 @@
                      height="40px">
               </v-img>
             </div>
-            <div class="ml-5 font-weight-bold f-24">
-              <h3>{{info.title}}</h3>
+            <div class="ml-5 font-weight-bold f-24 f_media">
+              <h3 class="f_media">{{info.title}}</h3>
             </div>
           </div>
           <div class="d-flex f-playfair desc--text f-16">

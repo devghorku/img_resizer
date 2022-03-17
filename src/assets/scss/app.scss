@@ -72,3 +72,11 @@ $font-family2: 'Playfair Display', sans-serif;
   bottom: 20px;
   right:20px;
 }
+.f_media{
+
+}
+@media (max-width: 550px) {
+  .f_media{
+    font-size: large;
+  }
+}
