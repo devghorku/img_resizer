@@ -15,15 +15,18 @@ $font-family2: 'Playfair Display', sans-serif;
   .f-roboto{
     font-family: "Roboto",sans-serif!important;
   }
-  .f-Raleway{
-    font-family: 'Raleway' ;
-  }
 }
 .br-6{
   border-radius: 6px;
 }
+.br-20{
+  border-radius: 20px!important;
+}
 .f-24{
   font-size: 24px;
+}
+.f-18{
+  font-size: 18px;
 }
 .f-16{
   font-size: 16px;
@@ -45,7 +48,6 @@ $font-family2: 'Playfair Display', sans-serif;
   }
 }
 .v-list .v-list-item--active {
-  color: inherit;
   border-radius: 56px!important;
   background: rgba(0, 51, 255, 0.1);;
 }
@@ -53,7 +55,7 @@ $font-family2: 'Playfair Display', sans-serif;
   background-color: transparent !important;
 }
 .v-list-item__content, .v-select__selection{
-  font-family: Playfair Display;
+  font-family: Playfair Display, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -64,4 +66,9 @@ $font-family2: 'Playfair Display', sans-serif;
 .ct{
   position: relative;
   top: -8px;
+}
+.dlt-btn{
+  position: absolute;
+  bottom: 20px;
+  right:20px;
 }
