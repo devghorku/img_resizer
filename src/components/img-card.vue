@@ -3,23 +3,46 @@
     <v-card class="br-6">
       <v-card-text>
         <div>
-          <v-checkbox hide-details
+          <v-checkbox hide-details v-if="!single"
                       dense
                       class="align-start"
                       v-model="imgData.selected">
             <template v-slot:label>
               <div class="ct">
-                <div v-for="(label,idx) in imgData.labels" :key="idx" class="f-playfair f-14 font-weight-normal">{{ label }}</div>
-                <div class="f-playfair f-12 font-weight-normal">{{ imgData.width }} x {{ imgData.height }}</div>
+                <div v-for="(label,idx) in imgData.labels" :key="idx"
+                     class="f-playfair f-14 font-weight-normal txt--text">{{ label }}
+                </div>
+                <div class="f-playfair f-12 font-weight-normal desc--text">{{ imgData.width }} x {{
+                    imgData.height
+                  }}
+                </div>
               </div>
             </template>
           </v-checkbox>
-          <img id="img" :src="img" alt="" v-show="false"/>
-          <canvas ref="canvas" v-show="false"></canvas>
-          <v-img :src="crop" :aspect-ratio="imgData.width/imgData.height" class="br-6">
+          <div v-else>
+            <div v-for="(label,idx) in imgData.labels" :key="idx"
+                 class="f-playfair f-14 font-weight-normal">{{ label }}
+            </div>
+            <div class="f-playfair f-12 font-weight-normal desc--text">
+              {{ imgData.width }} x {{ imgData.height }}
+            </div>
+          </div>
+          <v-img :src="imgData.previewImg" :aspect-ratio="imgData.width/imgData.height" class="br-6 sky">
+            <template v-slot:placeholder>
+              <v-row
+                  class="fill-height ma-0"
+                  align="center"
+                  justify="center"
+              >
+                <v-progress-circular
+                    indeterminate
+                    color="primary"
+                ></v-progress-circular>
+              </v-row>
+            </template>
             <div>
-              <v-btn @click="dialog=true" class="ma-2 float-right text-none" small>
-                Adjust position
+              <v-btn @click="dialog=true" class="ma-2 float-right text-none cream font-weight-bold" small>
+                Adjust
               </v-btn>
             </div>
           </v-img>
@@ -28,6 +51,9 @@
     </v-card>
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
+        <v-card-title>
+          Adjust Position
+        </v-card-title>
         <v-card-text>
           <cropper
               class="cropper"
@@ -38,8 +64,11 @@
               @change="change"
           ></cropper>
         </v-card-text>
-        <v-card-actions>
-          <v-btn @click="resize">
+        <v-card-actions class="justify-end">
+          <v-btn @click="dialog=false" color="primary" class="mb-3 text-none f-roboto px-3" outlined>
+            Cancel
+          </v-btn>
+          <v-btn @click="resize" color="primary" class="mb-3 text-none f-roboto px-3">
             Done
           </v-btn>
         </v-card-actions>
@@ -60,11 +89,18 @@ export default {
       type: Object,
       default: () => {
       }
+    },
+    img: {
+      type: String,
+      default: () => ''
+    },
+    single: {
+      default: false,
+      type: Boolean
     }
   },
   data() {
     return {
-      img: require('@/assets/download.jpg'),
       dialog: false,
       crop: null,
       cropVar: null,
@@ -73,33 +109,12 @@ export default {
   components: {
     Cropper
   },
-  mounted() {
-    setTimeout(() => {
-      const canvas = this.$refs.canvas;
-      canvas.height = canvas.width * (this.imgData.height / this.imgData.width)
-      const ctx = canvas.getContext('2d');
-      var image = new Image();
-      image.src = document.getElementById('img').src;
-      var self = this
-      image.addEventListener("load", function () {
-        ctx.drawImage(image, 0, 0, self.imgData.width, self.imgData.height);
-        console.log(image, canvas)
-      }, false);
-      setTimeout(() => {
-        console.log(canvas.toDataURL("image/png", 0.5))
-        this.crop = canvas.toDataURL("image/jpeg", 1);
-      }, 900)
-
-    }, 1000)
-  },
   methods: {
-    change({coordinates, canvas}) {
-      console.log(coordinates)
-      this.cropVar = canvas.toDataURL("image/jpeg", 1);
+    change({canvas}) {
+      this.cropVar = canvas.toDataURL("image/png", 1);
     },
     resize() {
-      console.log(this.crop)
-      this.crop = this.cropVar;
+      this.imgData.previewImg = this.cropVar;
       this.dialog = false
     }
   }
@@ -109,6 +124,6 @@ export default {
 <style scoped>
 .cropper {
   /*width: 100%;*/
-  height: 600px;
+  height: 500px;
 }
 </style>

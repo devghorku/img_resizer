@@ -1,20 +1,30 @@
 <template>
   <v-app>
     <v-main>
-      <img-uploader v-model="selected" :img-list="getList()"></img-uploader>
-      <div v-if="selected==='instagram'">
-        <preview-block :img="null" :info="instaInfo" :imgList="instagram">
-        </preview-block>
-      </div>
-      <div v-if="selected==='facebook'">
-        <preview-block :img="null" :info="fbInfo" :imgList="faceBook">
-        </preview-block>
-      </div>
-      <div v-if="selected==='tiktok'">
-        <preview-block :img="null" :info="tiktokInfo" :imgList="tiktok">
+      <img-uploader v-model="selected" :img-list="getList" @customChange="customChange"
+                    @fileUploaded="fileUploaded">
+      </img-uploader>
+      <div v-if="img">
+        <div v-if="selected==='instagram'">
+          <preview-block :img="img" :info="instaInfo" :imgList="instagram" @download="download">
+          </preview-block>
+        </div>
+        <div v-else-if="selected==='facebook'">
+          <preview-block :img="img" :info="fbInfo" :imgList="faceBook" @download="download">
+          </preview-block>
+        </div>
+        <div v-else-if="selected==='tiktok'">
+          <preview-block :img="img" :info="tiktokInfo" :imgList="tiktok" @download="download">
 
-        </preview-block>
+          </preview-block>
+        </div>
+        <div v-else>
+          <preview-block :img="img" :info="customInfo" :imgList="custom" @download="download">
+
+          </preview-block>
+        </div>
       </div>
+
     </v-main>
   </v-app>
 </template>
@@ -33,11 +43,18 @@ export default {
 
   data: () => ({
     selected: 'instagram',
+    img: null,
     instaInfo: {
       title: 'Resize Images for Instagram',
       img: require('@/assets/img/instagram.png'),
       desc: 'Our free image resizer is the perfect tool for businesses and Instagrammers alike.<br/>' +
           'We streamlined the resizing process for Instagram stories, vertical horizontal, and square posts, video thumbnails, and more - with no effort at all!'
+    },
+    customInfo: {
+      title: 'Resize Images Custom',
+      img: null,
+      desc: 'Our free image resizer is the perfect tool for businesses and company.<br/>' +
+          'We streamlined the resizing process for verious social platfoem, stories, vertical horizontal, and square posts, video thumbnails, and more - with no effort at all!'
     },
     fbInfo: {
       title: 'Resize Images for Facebook',
@@ -236,18 +253,119 @@ export default {
         previewImg: null,
         selected: false,
       },
+    ],
+    custom:[
+      {
+        name: "custom",
+        labels: ['custom'],
+        width: 300,
+        height: 300,
+        preview: null,
+        previewImg: null,
+        selected: true,
+      },
     ]
   }),
-  methods:{
-    getList(){
-      if(this.selected==='instagram'){
+  computed: {
+    getList() {
+      if (this.selected === 'instagram') {
         return this.instagram
-      }else if(this.selected==='facebook'){
+      } else if (this.selected === 'facebook') {
         return this.faceBook
-      }else if(this.selected==='tiktok'){
+      } else if (this.selected === 'tiktok') {
         return this.tiktok
       }
-    }
-  }
+      return this.custom
+    },
+  },
+  methods: {
+    customChange(){
+      this.custom.forEach(item => {
+        const inputImage = new Image();
+        inputImage.src = this.img;
+        inputImage.onload = () => {
+          item.previewImg = this.crop(inputImage, (item.width / item.height))
+        }
+      })
+    },
+    fileUploaded(img) {
+      this.img = img;
+      this.instagram.forEach(item => {
+        const inputImage = new Image();
+        inputImage.src = img;
+        inputImage.onload = () => {
+          item.previewImg = this.crop(inputImage, (item.width / item.height))
+        }
+      })
+      this.faceBook.forEach(item => {
+        const inputImage = new Image();
+        inputImage.src = img;
+        inputImage.onload = () => {
+          item.previewImg = this.crop(inputImage, (item.width / item.height))
+        }
+      })
+      this.tiktok.forEach(item => {
+        const inputImage = new Image();
+        inputImage.src = img;
+        inputImage.onload = () => {
+          item.previewImg = this.crop(inputImage, (item.width / item.height))
+        }
+      })
+      this.custom.forEach(item => {
+        const inputImage = new Image();
+        inputImage.src = img;
+        inputImage.onload = () => {
+          item.previewImg = this.crop(inputImage, (item.width / item.height))
+        }
+      })
+    },
+    crop(inputImage, aspectRatio) {
+      const inputWidth = inputImage.naturalWidth;
+      const inputHeight = inputImage.naturalHeight;
+      const inputImageAspectRatio = inputWidth / inputHeight;
+      let outputWidth = inputWidth;
+      let outputHeight = inputHeight;
+      if (inputImageAspectRatio > aspectRatio) {
+        outputWidth = inputHeight * aspectRatio;
+      } else if (inputImageAspectRatio < aspectRatio) {
+        outputHeight = inputWidth / aspectRatio;
+      }
+      const outputX = (outputWidth - inputWidth) * 0.5;
+      const outputY = (outputHeight - inputHeight) * 0.5;
+      const outputImage = document.createElement('canvas');
+      outputImage.width = outputWidth;
+      outputImage.height = outputHeight;
+      const ctx = outputImage.getContext('2d');
+      ctx.drawImage(inputImage, outputX, outputY);
+      return outputImage.toDataURL("image/png", 1)
+    },
+    download(imgList) {
+      imgList.forEach(item => {
+        if (item.selected) {
+
+          const image = new Image();
+          image.src = item.previewImg;
+          var fileName = item.name + '_' + item.width + '_' + item.height + '.png'
+          image.onload = () => {
+            var canvas = document.createElement('canvas');
+            canvas.width = item.width;
+            canvas.height = item.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(image, 0, 0, item.width, item.height);
+            var img=canvas.toDataURL('image/png', 1);
+            this.downloadFile(img, fileName)
+          }
+        }
+      })
+    },
+    downloadFile(img, filename) {
+      var a = document.createElement("a");
+      a.href = img;
+      a.download = filename;
+      a.click();
+      a.remove()
+    },
+  },
+
 };
 </script>
