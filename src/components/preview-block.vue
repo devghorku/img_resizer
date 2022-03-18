@@ -1,7 +1,7 @@
 <template>
   <div class="cream py-7">
     <v-container>
-      <v-card flat max-width="1400px" class="mx-auto transparent">
+      <v-card flat max-width="1080px" class="mx-auto transparent">
         <div>
           <div class="d-flex align-center justify-center">
             <div v-if="info.img">
@@ -35,7 +35,7 @@
               Download
             </v-btn>
           </div>
-          <masonry :cols="{default: 4, 1000: 3, 700: 2, 400: 1}"
+          <masonry :cols="{default: 4, 1000: 3, 700: 2, 475: 1}"
                    :gutter="{default: '30px', 700: '15px'}">
             <div v-for="(item, index) in imgList" :key="index">
               <img-card :imgData="item" :img="img" class="mb-4" :single="imgList.length===1"/>

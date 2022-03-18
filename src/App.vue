@@ -1,7 +1,10 @@
 <template>
   <v-app>
     <v-main>
-      <img-uploader v-model="selected" :img-list="getList" @customChange="customChange"
+      <img-uploader v-model="selected"
+                    :img-list="getList"
+                    @download="download"
+                    @customChange="customChange"
                     @fileUploaded="fileUploaded">
       </img-uploader>
       <div v-if="img">
@@ -53,8 +56,7 @@ export default {
     customInfo: {
       title: 'Resize Images Custom',
       img: null,
-      desc: 'Our free image resizer is the perfect tool for businesses and company.<br/>' +
-          'We streamlined the resizing process for verious social platfoem, stories, vertical horizontal, and square posts, video thumbnails, and more - with no effort at all!'
+      desc: 'Our free image resizer is the perfect tool for businesses and individuals. We simplify the resizing process for various social platforms and use cases. Trim your image to a custom size in a snap without installing software and paying!'
     },
     fbInfo: {
       title: 'Resize Images for Facebook',
@@ -62,7 +64,7 @@ export default {
       desc: "We've organized all Facebook image sizes and made them easy for you to access. Create your stories, profile, posts, cover photos, and ads with our online image resizer without paying a penny!"
     },
     tiktokInfo: {
-      title: 'Resize Images for Tiktok',
+      title: 'Resize Images for TikTok',
       img: require('@/assets/img/tiktok.png'),
       desc: 'TikTok video dimensions should be 1080x1920 and the max file size is 287.6 MB. Make sure to choose the right format and create your eye-catching covers with our free TikTok image resizer!'
     },
@@ -77,37 +79,10 @@ export default {
         selected: false,
       },
       {
-        name: "Post/Ad Portrait",
-        labels: ["Instagram portrait post", "Instagram ad portrait", "Instagram post size"],
+        name: "Square/Ad Square",
+        labels: ["Instagram Square Size", "Instagram Ad Square"],
         width: 1080,
-        height: 1350,
-        preview: null,
-        previewImg: null,
-        selected: false,
-      },
-      {
-        name: "IGTV Cover",
-        labels: ["Instagram IGTV Cover"],
-        width: 420,
-        height: 654,
-        preview: null,
-        previewImg: null,
-        selected: false,
-      },
-      {
-        name: "Thumbnail",
-        labels: ["Instagram Thumbnail"],
-        width: 161,
-        height: 161,
-        preview: null,
-        previewImg: null,
-        selected: false,
-      },
-      {
-        name: "Stories & Reels",
-        labels: ["Instagram Stories", "Instagram Reels"],
-        width: 1080,
-        height: 1920,
+        height: 1080,
         preview: null,
         previewImg: null,
         selected: false,
@@ -122,14 +97,44 @@ export default {
         selected: false,
       },
       {
-        name: "Square/Ad Square",
-        labels: ["Instagram Square Size", "Instagram Ad Square"],
+        name: "Stories/Reels",
+        labels: ["Instagram Stories", "Instagram Reels"],
         width: 1080,
-        height: 1080,
+        height: 1920,
         preview: null,
         previewImg: null,
         selected: false,
       },
+      {
+        name: "Post/Ad Portrait",
+        labels: ["Instagram portrait post", "Instagram ad portrait", "Instagram post size"],
+        width: 1080,
+        height: 1350,
+        preview: null,
+        previewImg: null,
+        selected: false,
+      },
+      {
+        name: "Thumbnail",
+        labels: ["Instagram Thumbnail"],
+        width: 161,
+        height: 161,
+        preview: null,
+        previewImg: null,
+        selected: false,
+      },
+      {
+        name: "IGTV Cover",
+        labels: ["Instagram IGTV Cover"],
+        width: 420,
+        height: 654,
+        preview: null,
+        previewImg: null,
+        selected: false,
+      },
+
+
+
     ],
 
     tiktok: [
@@ -146,16 +151,7 @@ export default {
         name: "Vertical Video Ad",
         labels: ["TikTok VErtical Video Ad"],
         width: 1080,
-        height: 1920,
-        preview: null,
-        previewImg: null,
-        selected: false,
-      },
-      {
-        name: "Square/Ad Square",
-        labels: ["TikTok In-Feed Ad Image", "TikTok Square Video Ad"],
-        width: 1080,
-        height: 1080,
+        height: 1020,
         preview: null,
         previewImg: null,
         selected: false,
@@ -169,27 +165,18 @@ export default {
         previewImg: null,
         selected: false,
       },
+      {
+        name: "In-feed/Video Ad",
+        labels: ["TikTok In-Feed Ad Image", "TikTok Square Video Ad"],
+        width: 1080,
+        height: 1080,
+        preview: null,
+        previewImg: null,
+        selected: false,
+      },
     ],
 
     faceBook: [
-      {
-        name: "Profile Picture",
-        labels: ["Facebook Profile Picture"],
-        width: 180,
-        height: 180,
-        preview: null,
-        previewImg: null,
-        selected: false,
-      },
-      {
-        name: "Link & Post",
-        labels: ["Facebook Link Image", "Facebook Image Post"],
-        width: 1200,
-        height: 630,
-        preview: null,
-        previewImg: null,
-        selected: false,
-      },
       {
         name: "Cover Photo",
         labels: ["Facebook Cover Photo"],
@@ -200,37 +187,19 @@ export default {
         selected: false,
       },
       {
-        name: "Feed",
-        labels: ["Facebook Feed"],
+        name: "Stories / Ads Stories",
+        labels: ["Facebook Stories", "Facebook Ads Stories"],
         width: 1080,
-        height: 1350,
+        height: 1920,
         preview: null,
         previewImg: null,
         selected: false,
       },
       {
-        name: "Marketplace & Instant Articles and Right Column",
+        name: "Marketplace / Instant Articles and Right Column",
         labels: ["Facebook Marketplace", "Facebook Instant Articles", "Facebook Right Column", "Facebook Ads Carousel Image"],
         width: 1200,
         height: 1200,
-        preview: null,
-        previewImg: null,
-        selected: false,
-      },
-      {
-        name: "Event",
-        labels: ["Facebook Event Image"],
-        width: 1920,
-        height: 1005,
-        preview: null,
-        previewImg: null,
-        selected: false,
-      },
-      {
-        name: "Group Cover",
-        labels: ["Facebook Group Cover"],
-        width: 1640,
-        height: 856,
         preview: null,
         previewImg: null,
         selected: false,
@@ -245,14 +214,51 @@ export default {
         selected: false,
       },
       {
-        name: "Stories & Ads Stories",
-        labels: ["Facebook Stories", "Facebook Ads Stories"],
+        name: "Feed",
+        labels: ["Facebook Feed"],
         width: 1080,
-        height: 1920,
+        height: 1350,
         preview: null,
         previewImg: null,
         selected: false,
       },
+      {
+        name: "Profile Picture",
+        labels: ["Facebook Profile Picture"],
+        width: 180,
+        height: 180,
+        preview: null,
+        previewImg: null,
+        selected: false,
+      },
+      {
+        name: "Group Cover",
+        labels: ["Facebook Group Cover"],
+        width: 1640,
+        height: 856,
+        preview: null,
+        previewImg: null,
+        selected: false,
+      },
+      {
+        name: "Event",
+        labels: ["Facebook Event Image"],
+        width: 1920,
+        height: 1005,
+        preview: null,
+        previewImg: null,
+        selected: false,
+      },
+      {
+        name: "Link / Post",
+        labels: ["Facebook Link Image", "Facebook Image Post"],
+        width: 1200,
+        height: 630,
+        preview: null,
+        previewImg: null,
+        selected: false,
+      },
+
     ],
     custom:[
       {
