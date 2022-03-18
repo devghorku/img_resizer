@@ -9,5 +9,34 @@ Vue.config.productionTip = false
 
 new Vue({
   vuetify,
-  render: h => h(App)
+  render: h => h(App),
+  methods:{
+    downloadFile(img, filename) {
+      var a = document.createElement("a");
+      a.href = img;
+      a.download = filename;
+      a.click();
+      a.remove()
+    },
+    crop(inputImage, aspectRatio) {
+      const inputWidth = inputImage.naturalWidth;
+      const inputHeight = inputImage.naturalHeight;
+      const inputImageAspectRatio = inputWidth / inputHeight;
+      let outputWidth = inputWidth;
+      let outputHeight = inputHeight;
+      if (inputImageAspectRatio > aspectRatio) {
+        outputWidth = inputHeight * aspectRatio;
+      } else if (inputImageAspectRatio < aspectRatio) {
+        outputHeight = inputWidth / aspectRatio;
+      }
+      const outputX = (outputWidth - inputWidth) * 0.5;
+      const outputY = (outputHeight - inputHeight) * 0.5;
+      const outputImage = document.createElement('canvas');
+      outputImage.width = outputWidth;
+      outputImage.height = outputHeight;
+      const ctx = outputImage.getContext('2d');
+      ctx.drawImage(inputImage, outputX, outputY);
+      return outputImage.toDataURL("image/png", 1)
+    },
+  }
 }).$mount('#app')

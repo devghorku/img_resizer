@@ -3,11 +3,11 @@
     <v-card max-width="1080px" class="mx-auto" flat>
       <v-row class="py-6">
         <v-col cols="12" md="6">
-          <v-card class="br-20 d-flex sky" flat   height="340px">
-            <v-card  class="ma-auto transparent d-flex"
-                     height="340px"
-                     width="100%"
-                     v-if="progress>0">
+          <v-card class="br-20 d-flex sky" outlined height="340px">
+            <v-card class="ma-auto transparent d-flex"
+                    height="340px"
+                    width="100%"
+                    v-if="progress>0">
               <div class="ma-auto text-center">
                 <v-progress-circular
                     :rotate="-90"
@@ -47,12 +47,20 @@
                     </v-btn>
                   </div>
                 </div>
-                <input type="file" @change="onChange" ref="fileUpload" hidden accept="image/png, image/jpeg">
+                <input type="file" @change="onChange"
+                       ref="fileUpload"
+                       hidden
+                       accept="image/png, image/jpeg">
               </v-card>
-              <v-card v-else class="br-20 ma-auto transparent" flat
+              <v-card v-else class="br-20 ma-auto transparent d-flex"
                       height="340px"
+                      flat
                       width="100%">
-                <v-img :src="file" width="100%" max-height="340px">
+                <v-img :src="selected==='custom'?custom.previewImg:file"
+                       width="100%"
+                       contain
+                       class="ma-auto"
+                       max-height="340px">
                   <template v-slot:placeholder>
                     <v-row
                         class="fill-height ma-0"
@@ -69,6 +77,13 @@
                       </v-progress-circular>
                     </v-row>
                   </template>
+                  <div v-if="selected==='custom'">
+                    <v-btn @click="dialog=true"
+                           class="ma-2 float-right text-none cream font-weight-bold"
+                           small>
+                      Adjust
+                    </v-btn>
+                  </div>
                   <div>
                     <v-btn class="dlt-btn error" color="white" icon rounded @click="removeFile">
                       <v-icon>mdi-delete</v-icon>
@@ -101,10 +116,10 @@
                 <template v-slot:label>
                   <div>
                     <div class="f-14 f-playfair font-weight-normal txt--text">
-                      {{item.name}}
+                      {{ item.name }}
                     </div>
                     <div class="f-12 f-playfair font-weight-normal desc--text">
-                      {{item.width}} x {{item.height}}
+                      {{ item.width }} x {{ item.height }}
                     </div>
                   </div>
                 </template>
@@ -117,22 +132,29 @@
               <v-col md="6" cols="12">
                 <v-text-field type="number"
                               min="1"
-                              v-model="imgList[0].width"
-                              label="Width" outlined dense hide-details
-                              @keyup="customChange"
+                              v-model="custom.width"
+                              label="Width" outlined dense
+                              hide-details
+                              @keyup="customChange('width')"
+                              @change="customChange('width')"
+                              @input="customChange('width')"
                 >
                 </v-text-field>
               </v-col>
               <v-col md="6" cols="12">
                 <v-text-field type="number"
                               min="1"
-                              v-model="imgList[0].height"
-                              @keyup="customChange" hide-details
+                              v-model="custom.height"
+                              @keyup="customChange('height')"
+                              @change="customChange('height')"
+                              @input="customChange('height')"
+                              hide-details
                               label="Height" outlined dense>
                 </v-text-field>
               </v-col>
               <v-col md="6" cols="12">
-                <v-checkbox v-model="constant" label="Lock aspect ratio"></v-checkbox>
+                <v-checkbox v-model="constant" label="Lock aspect ratio"
+                            @click="customChange('')"></v-checkbox>
               </v-col>
             </v-row>
 
@@ -148,7 +170,7 @@
               Select All
             </v-btn>
             <v-btn class="ma-2 white--text primary text-none font-weight-bold f-roboto f-14"
-                   @click="$emit('download',imgList)"
+                   @click="download"
                    depressed>
               Download
             </v-btn>
@@ -156,7 +178,32 @@
         </v-col>
       </v-row>
     </v-card>
-
+    <v-dialog v-model="dialog"
+              max-width="600px">
+      <v-card>
+        <v-card-title>
+          Adjust Position
+        </v-card-title>
+        <v-card-text>
+          <cropper
+              class="cropper"
+              :src="file"
+              :stencil-props="{aspectRatio: custom.width/custom.height}"
+              @change="change"
+          ></cropper>
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn @click="dialog=false" color="primary"
+                 class="mb-3 text-none f-roboto px-3"
+                 outlined>
+            Cancel
+          </v-btn>
+          <v-btn @click="resize" color="primary" class="mb-3 text-none f-roboto px-3">
+            Done
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -168,30 +215,38 @@ export default {
       type: Array,
       default: () => []
     },
-    custom:{
-      default:false,
-      type:Boolean
-    }
   },
   data() {
     return {
-      file:'',
+      file: '',
       selected: 'instagram',
-      progress:0,
-      totalSize:0,
-      constant:true,
-      scale:0.5,
+      progress: 0,
+      totalSize: 0,
+      constant: true,
+      scale: 0.5,
+      ratio: 1,
       options: [
         {text: 'Instagram', value: 'instagram'},
         {text: 'Facebook', value: 'facebook'},
         {text: 'TikTok', value: 'tiktok'},
         {text: 'Custom', value: 'custom'},
-      ]
+      ],
+      custom: {
+        name: "custom",
+        labels: ['custom'],
+        width: 300,
+        height: 300,
+        preview: null,
+        previewImg: null,
+        selected: true,
+      },
+      dialog: false,
+      cropVar: null,
     }
   },
-  methods:{
-    selectAll(){
-      this.imgList.forEach(item=>item.selected=true)
+  methods: {
+    selectAll() {
+      this.imgList.forEach(item => item.selected = true)
     },
     onDrop(e) {
       e.stopPropagation();
@@ -204,11 +259,23 @@ export default {
       var files = e.target.files || e.dataTransfer.files;
       this.createFile(files[0]);
     },
-    customChange(){
-      if(this.imgList[0].width && this.imgList[0].width && this.file){
-        this.$emit('customChange')
+    customChange(property) {
+      if (this.constant) {
+        if (property === 'width') {
+          this.custom.height = this.custom.width ? parseInt(this.custom.width / this.ratio) : 0
+        } else {
+          this.custom.width = this.custom.height ? parseInt(this.custom.height * this.ratio) : 0
+        }
+      }
+      if (this.custom.width && this.custom.height && this.file) {
+        const inputImage = new Image();
+        inputImage.src = this.file;
+        inputImage.onload = () => {
+          this.custom.previewImg = this.$root.crop(inputImage, (this.custom.width / this.custom.height))
+        }
       }
     },
+
     createFile(file) {
       if (!file.type.match('image.*')) {
         alert('please select image file');
@@ -222,20 +289,28 @@ export default {
 
       var reader = new FileReader();
       var vm = this;
-      reader.onloadstart = function(e) {
+      reader.onloadstart = function (e) {
         vm.totalSize = e.total;
       }
-      reader.onprogress = function(e) {
+      reader.onprogress = function (e) {
 
-        vm.progress=(e.loaded / this.totalSize).toFixed(2) * 100;
+        vm.progress = (e.loaded / this.totalSize).toFixed(2) * 100;
       }
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         vm.file = e.target.result;
-        vm.progress=0;
+        vm.progress = 0;
+        var imageObj = new Image();
+        imageObj.src = e.target.result;
+        imageObj.onload = function () {
+          vm.ratio = imageObj.width / imageObj.height;
+          vm.custom.width = imageObj.width;
+          vm.custom.height = imageObj.height;
+          vm.custom.previewImg = e.target.result;
+        };
         vm.$emit('fileUploaded', e.target.result)
       }
-      reader.onloadend = function() {
-        vm.progress=0;
+      reader.onloadend = function () {
+        vm.progress = 0;
       }
       reader.readAsDataURL(file);
 
@@ -243,6 +318,32 @@ export default {
     removeFile() {
       this.file = '';
       this.$emit('fileUploaded', null)
+    },
+    change({canvas}) {
+      this.cropVar = canvas.toDataURL("image/png", 1);
+    },
+    resize() {
+      this.custom.previewImg = this.cropVar;
+      this.dialog = false
+    },
+    download(){
+      if(this.selected!=='custom') {
+        this.$emit('download', this.imgList)
+      }else{
+        console.log(this.custom)
+        const image = new Image();
+        image.src = this.custom.previewImg;
+        var fileName = 'custom' + '_' + this.custom.width + '_' + this.custom.height + '.png'
+        image.onload = () => {
+          var canvas = document.createElement('canvas');
+          canvas.width = this.custom.width;
+          canvas.height = this.custom.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(image, 0, 0, this.custom.width, this.custom.height);
+          var img=canvas.toDataURL('image/png', 1);
+          this.$root.downloadFile(img, fileName)
+        }
+      }
     }
   }
 }

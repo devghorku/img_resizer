@@ -4,7 +4,6 @@
       <img-uploader v-model="selected"
                     :img-list="getList"
                     @download="download"
-                    @customChange="customChange"
                     @fileUploaded="fileUploaded">
       </img-uploader>
       <div v-if="img">
@@ -21,11 +20,11 @@
 
           </preview-block>
         </div>
-        <div v-else>
-          <preview-block :img="img" :info="customInfo" :imgList="custom" @download="download">
+<!--        <div v-else>-->
+<!--          <preview-block :img="img" :info="customInfo" :imgList="custom" @download="download">-->
 
-          </preview-block>
-        </div>
+<!--          </preview-block>-->
+<!--        </div>-->
       </div>
 
     </v-main>
@@ -53,11 +52,11 @@ export default {
       desc: 'Our free image resizer is the perfect tool for businesses and Instagrammers alike.<br/>' +
           'We streamlined the resizing process for Instagram stories, vertical horizontal, and square posts, video thumbnails, and more - with no effort at all!'
     },
-    customInfo: {
-      title: 'Resize Images Custom',
-      img: null,
-      desc: 'Our free image resizer is the perfect tool for businesses and individuals. We simplify the resizing process for various social platforms and use cases. Trim your image to a custom size in a snap without installing software and paying!'
-    },
+    // customInfo: {
+    //   title: 'Resize Images Custom',
+    //   img: null,
+    //   desc: 'Our free image resizer is the perfect tool for businesses and individuals. We simplify the resizing process for various social platforms and use cases. Trim your image to a custom size in a snap without installing software and paying!'
+    // },
     fbInfo: {
       title: 'Resize Images for Facebook',
       img: require('@/assets/img/fb.png'),
@@ -260,17 +259,6 @@ export default {
       },
 
     ],
-    custom:[
-      {
-        name: "custom",
-        labels: ['custom'],
-        width: 300,
-        height: 300,
-        preview: null,
-        previewImg: null,
-        selected: true,
-      },
-    ]
   }),
   computed: {
     getList() {
@@ -281,47 +269,31 @@ export default {
       } else if (this.selected === 'tiktok') {
         return this.tiktok
       }
-      return this.custom
+      return []
     },
   },
   methods: {
-    customChange(){
-      this.custom.forEach(item => {
-        const inputImage = new Image();
-        inputImage.src = this.img;
-        inputImage.onload = () => {
-          item.previewImg = this.crop(inputImage, (item.width / item.height))
-        }
-      })
-    },
     fileUploaded(img) {
       this.img = img;
       this.instagram.forEach(item => {
         const inputImage = new Image();
         inputImage.src = img;
         inputImage.onload = () => {
-          item.previewImg = this.crop(inputImage, (item.width / item.height))
+          item.previewImg = this.$root.crop(inputImage, (item.width / item.height))
         }
       })
       this.faceBook.forEach(item => {
         const inputImage = new Image();
         inputImage.src = img;
         inputImage.onload = () => {
-          item.previewImg = this.crop(inputImage, (item.width / item.height))
+          item.previewImg = this.$root.crop(inputImage, (item.width / item.height))
         }
       })
       this.tiktok.forEach(item => {
         const inputImage = new Image();
         inputImage.src = img;
         inputImage.onload = () => {
-          item.previewImg = this.crop(inputImage, (item.width / item.height))
-        }
-      })
-      this.custom.forEach(item => {
-        const inputImage = new Image();
-        inputImage.src = img;
-        inputImage.onload = () => {
-          item.previewImg = this.crop(inputImage, (item.width / item.height))
+          item.previewImg = this.$root.crop(inputImage, (item.width / item.height))
         }
       })
     },
@@ -348,7 +320,6 @@ export default {
     download(imgList) {
       imgList.forEach(item => {
         if (item.selected) {
-
           const image = new Image();
           image.src = item.previewImg;
           var fileName = item.name + '_' + item.width + '_' + item.height + '.png'
@@ -359,17 +330,10 @@ export default {
             const ctx = canvas.getContext('2d');
             ctx.drawImage(image, 0, 0, item.width, item.height);
             var img=canvas.toDataURL('image/png', 1);
-            this.downloadFile(img, fileName)
+            this.$root.downloadFile(img, fileName)
           }
         }
       })
-    },
-    downloadFile(img, filename) {
-      var a = document.createElement("a");
-      a.href = img;
-      a.download = filename;
-      a.click();
-      a.remove()
     },
   },
 

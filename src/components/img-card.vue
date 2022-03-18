@@ -27,7 +27,9 @@
               {{ imgData.width }} x {{ imgData.height }}
             </div>
           </div>
-          <v-img :src="imgData.previewImg" :aspect-ratio="imgData.width/imgData.height" class="br-6 sky">
+          <v-img :src="imgData.previewImg"
+                 :aspect-ratio="imgData.width/imgData.height"
+                 class="br-6 sky">
             <template v-slot:placeholder>
               <v-row
                   class="fill-height ma-0"
@@ -41,7 +43,9 @@
               </v-row>
             </template>
             <div>
-              <v-btn @click="dialog=true" class="ma-2 float-right text-none cream font-weight-bold" small>
+              <v-btn @click="dialog=true"
+                     class="ma-2 float-right text-none cream font-weight-bold"
+                     small>
                 Adjust
               </v-btn>
             </div>
@@ -65,7 +69,9 @@
           ></cropper>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn @click="dialog=false" color="primary" class="mb-3 text-none f-roboto px-3" outlined>
+          <v-btn @click="dialog=false" color="primary"
+                 class="mb-3 text-none f-roboto px-3"
+                 outlined>
             Cancel
           </v-btn>
           <v-btn @click="resize" color="primary" class="mb-3 text-none f-roboto px-3">
