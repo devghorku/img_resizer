@@ -2,10 +2,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import './assets/scss/app.scss'
+Vue.config.productionTip = false
+import JSZip from 'jszip'
 import VueMasonry from './plugins/masonary-box'
 
 Vue.use(VueMasonry);
-Vue.config.productionTip = false
+Vue.use(JSZip)
 
 new Vue({
   vuetify,

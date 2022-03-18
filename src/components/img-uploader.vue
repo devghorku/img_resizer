@@ -330,7 +330,6 @@ export default {
       if(this.selected!=='custom') {
         this.$emit('download', this.imgList)
       }else{
-        console.log(this.custom)
         const image = new Image();
         image.src = this.custom.previewImg;
         var fileName = 'custom' + '_' + this.custom.width + '_' + this.custom.height + '.png'

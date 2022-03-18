@@ -20,11 +20,11 @@
 
           </preview-block>
         </div>
-<!--        <div v-else>-->
-<!--          <preview-block :img="img" :info="customInfo" :imgList="custom" @download="download">-->
+        <!--        <div v-else>-->
+        <!--          <preview-block :img="img" :info="customInfo" :imgList="custom" @download="download">-->
 
-<!--          </preview-block>-->
-<!--        </div>-->
+        <!--          </preview-block>-->
+        <!--        </div>-->
       </div>
 
     </v-main>
@@ -34,6 +34,8 @@
 <script>
 import ImgUploader from "./components/img-uploader";
 import PreviewBlock from "./components/preview-block";
+import JSZip from 'jszip';
+import {saveAs} from 'file-saver';
 
 export default {
   name: 'App',
@@ -46,6 +48,7 @@ export default {
   data: () => ({
     selected: 'instagram',
     img: null,
+    dImages: [],
     instaInfo: {
       title: 'Resize Images for Instagram',
       img: require('@/assets/img/instagram.png'),
@@ -131,7 +134,6 @@ export default {
         previewImg: null,
         selected: false,
       },
-
 
 
     ],
@@ -317,24 +319,53 @@ export default {
       ctx.drawImage(inputImage, outputX, outputY);
       return outputImage.toDataURL("image/png", 1)
     },
-    download(imgList) {
+    async download(imgList) {
+      await this.makeImages(imgList)
+      setTimeout(async () => {
+        if (this.dImages.length > 0) {
+          await this.zipDownload(this.dImages)
+        }
+      },2000)
+
+    },
+    async makeImages(imgList) {
+      this.dImages = [];
+      let vm = this
       imgList.forEach(item => {
         if (item.selected) {
           const image = new Image();
           image.src = item.previewImg;
-          var fileName = item.name + '_' + item.width + '_' + item.height + '.png'
+          var fileName = this.convertToSlug(item.name) + '_' + item.width + '_' + item.height + '.png'
           image.onload = () => {
             var canvas = document.createElement('canvas');
             canvas.width = item.width;
             canvas.height = item.height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(image, 0, 0, item.width, item.height);
-            var img=canvas.toDataURL('image/png', 1);
-            this.$root.downloadFile(img, fileName)
+            var img = canvas.toDataURL('image/png', 1);
+            vm.dImages.push({fileName: fileName, img: img.replace(/^data:image\/(png|jpg);base64,/, "")})
           }
         }
       })
+
     },
+    async zipDownload(imgs) {
+      var zip = new JSZip()
+      var zipImg = zip.folder("images")
+      imgs.forEach(item => {
+        zipImg.file(item.fileName, item.img, {base64: true, createFolders: false})
+      })
+      zip.generateAsync({
+        type: "blob"
+      }).then(function (content) {
+        saveAs(content, "img_archive.zip")
+      })
+    },
+    convertToSlug(Text) {
+      return Text.toLowerCase()
+          .replace(/ /g, '-')
+          .replace(/[^\w-]+/g, '');
+    }
   },
 
 };
