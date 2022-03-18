@@ -128,8 +128,5 @@ export default {
 </script>
 
 <style scoped>
-.cropper {
-  /*width: 100%;*/
-  height: 500px;
-}
+
 </style>

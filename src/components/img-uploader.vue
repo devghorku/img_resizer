@@ -45,6 +45,9 @@
                            depressed>
                       Upload
                     </v-btn>
+                    <div class="f-12">
+                      * file size should less than 5 mb
+                    </div>
                   </div>
                 </div>
                 <input type="file" @change="onChange"
@@ -52,7 +55,7 @@
                        hidden
                        accept="image/png, image/jpeg">
               </v-card>
-              <v-card v-else class="br-20 ma-auto transparent d-flex"
+              <v-card v-else class="br-20 ma-auto black d-flex"
                       height="340px"
                       flat
                       width="100%">
@@ -79,7 +82,7 @@
                   </template>
                   <div v-if="selected==='custom'">
                     <v-btn @click="dialog=true"
-                           class="ma-2 float-right text-none cream font-weight-bold"
+                           class="my-4 mx-5 float-right text-none cream font-weight-bold"
                            small>
                       Adjust
                     </v-btn>

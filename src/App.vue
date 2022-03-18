@@ -8,15 +8,23 @@
       </img-uploader>
       <div v-if="img">
         <div v-if="selected==='instagram'">
-          <preview-block :img="img" :info="instaInfo" :imgList="instagram" @download="download">
+          <preview-block :img="img"
+                         :info="instaInfo"
+                         :imgList="instagram"
+                         @download="download">
           </preview-block>
         </div>
         <div v-else-if="selected==='facebook'">
-          <preview-block :img="img" :info="fbInfo" :imgList="faceBook" @download="download">
+          <preview-block :img="img" :info="fbInfo"
+                         :imgList="faceBook"
+                         @download="download">
           </preview-block>
         </div>
         <div v-else-if="selected==='tiktok'">
-          <preview-block :img="img" :info="tiktokInfo" :imgList="tiktok" @download="download">
+          <preview-block :img="img"
+                         :info="tiktokInfo"
+                         :imgList="tiktok"
+                         @download="download">
 
           </preview-block>
         </div>
@@ -150,9 +158,9 @@ export default {
       },
       {
         name: "Vertical Video Ad",
-        labels: ["TikTok VErtical Video Ad"],
+        labels: ["TikTok Vertical Video Ad"],
         width: 1080,
-        height: 1020,
+        height: 1920,
         preview: null,
         previewImg: null,
         selected: false,
@@ -325,7 +333,7 @@ export default {
         if (this.dImages.length > 0) {
           await this.zipDownload(this.dImages)
         }
-      },2000)
+      }, 2000)
 
     },
     async makeImages(imgList) {
