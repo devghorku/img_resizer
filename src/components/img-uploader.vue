@@ -168,12 +168,14 @@
                    v-if="selected!=='custom'"
                    depressed
                    color="#F5F5F5"
+                   :disabled="!file"
                    @click="selectAll"
             >
               Select All
             </v-btn>
             <v-btn class="ma-2 white--text primary text-none font-weight-bold f-roboto f-14"
                    @click="download"
+                   :disabled="!file"
                    depressed>
               Download
             </v-btn>
@@ -320,6 +322,15 @@ export default {
     },
     removeFile() {
       this.file = '';
+      this.custom = {
+        name: "custom",
+        labels: ['custom'],
+        width: 300,
+        height: 300,
+        preview: null,
+        previewImg: null,
+        selected: true,
+      };
       this.$emit('fileUploaded', null)
     },
     change({canvas}) {
@@ -329,10 +340,10 @@ export default {
       this.custom.previewImg = this.cropVar;
       this.dialog = false
     },
-    download(){
-      if(this.selected!=='custom') {
+    download() {
+      if (this.selected !== 'custom') {
         this.$emit('download', this.imgList)
-      }else{
+      } else {
         const image = new Image();
         image.src = this.custom.previewImg;
         var fileName = 'custom' + '_' + this.custom.width + '_' + this.custom.height + '.png'
@@ -342,7 +353,7 @@ export default {
           canvas.height = this.custom.height;
           const ctx = canvas.getContext('2d');
           ctx.drawImage(image, 0, 0, this.custom.width, this.custom.height);
-          var img=canvas.toDataURL('image/png', 1);
+          var img = canvas.toDataURL('image/png', 1);
           this.$root.downloadFile(img, fileName)
         }
       }

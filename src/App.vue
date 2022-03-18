@@ -285,6 +285,7 @@ export default {
   methods: {
     fileUploaded(img) {
       this.img = img;
+      this.dImages = [];
       this.instagram.forEach(item => {
         const inputImage = new Image();
         inputImage.src = img;
