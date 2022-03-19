@@ -42,27 +42,33 @@ $font-family2: 'Playfair Display', sans-serif;
     align-items: baseline;
   }
 }
-.custom-select{
-  .v-list .v-list-item--active{
-    border-radius: 30px!important;
+.custom-select {
+  .v-list .v-list-item--active {
+    border-radius: 30px !important;
+  }
+
+  .v-list .v-list-item--active {
+    border-radius: 56px !important;
+    background: rgba(0, 51, 255, 0.1);;
+  }
+
+  .v-list-item--link:before {
+    background-color: transparent !important;
+  }
+  .v-list-item__content, .v-select__selection{
+    font-family: Playfair Display, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    input{
+      background: transparent!important;
+    }
   }
 }
-.v-list .v-list-item--active {
-  border-radius: 56px!important;
-  background: rgba(0, 51, 255, 0.1);;
-}
-.v-list-item--link:before {
-  background-color: transparent !important;
-}
-.v-list-item__content, .v-select__selection{
-  font-family: Playfair Display, sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0.5px;
-  text-align: left;
-}
+
 .ct{
   position: relative;
   top: -8px;

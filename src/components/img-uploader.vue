@@ -81,7 +81,7 @@
                     </v-row>
                   </template>
                   <div v-if="selected==='custom'">
-                    <v-btn @click="dialog=true"
+                    <v-btn @click="loading=true,dialog=true"
                            class="my-4 mx-5 float-right text-none cream font-weight-bold"
                            small>
                       Adjust
@@ -190,12 +190,27 @@
           Adjust Position
         </v-card-title>
         <v-card-text>
+          <v-card class="d-flex cropper black" width="100%" flat>
+            <v-progress-circular
+                :rotate="-90"
+                :size="85"
+                :width="8"
+                indeterminate
+                color="primary"
+                v-if="loading"
+                class="ma-auto"
+            >
+            </v-progress-circular>
+
+
           <cropper
               class="cropper"
               :src="file"
+              @ready="loading=false"
               :stencil-props="{aspectRatio: custom.width/custom.height}"
               @change="change"
           ></cropper>
+          </v-card>
         </v-card-text>
         <v-card-actions class="justify-end">
           <v-btn @click="dialog=false" color="primary"
@@ -223,6 +238,7 @@ export default {
   },
   data() {
     return {
+      loading:false,
       file: '',
       selected: 'instagram',
       progress: 0,
