@@ -43,7 +43,7 @@
               </v-row>
             </template>
             <div>
-              <v-btn @click="dialog=true"
+              <v-btn @click="dialog=true,loading=true"
                      class="ma-2 float-right text-none cream font-weight-bold"
                      small>
                 Adjust
@@ -53,23 +53,39 @@
         </div>
       </v-card-text>
     </v-card>
-    <v-dialog v-model="dialog" max-width="600px">
+    <v-dialog v-model="dialog"
+              max-width="600px">
       <v-card>
         <v-card-title>
           Adjust Position
         </v-card-title>
         <v-card-text>
-          <cropper
-              class="cropper"
-              :src="img"
-              :stencil-props="{
+          <v-card class="d-flex cropper black" width="100%" flat>
+            <v-progress-circular
+                :rotate="-90"
+                :size="85"
+                :width="8"
+                indeterminate
+                color="primary"
+                v-if="loading"
+                class="ma-auto"
+            >
+            </v-progress-circular>
+
+            <cropper
+                class="cropper"
+                :src="img"
+                @ready="loading=false"
+                @error="loading=false"
+                :stencil-props="{
       aspectRatio: imgData.width/imgData.height
     }"
-              @change="change"
-          ></cropper>
+                @change="change"
+            ></cropper>
+          </v-card>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn @click="dialog=false" color="primary"
+          <v-btn @click="dialog=false,loading=false" color="primary"
                  class="mb-3 text-none f-roboto px-3"
                  outlined>
             Cancel
@@ -108,6 +124,7 @@ export default {
   data() {
     return {
       dialog: false,
+      loading: false,
       crop: null,
       cropVar: null,
     }

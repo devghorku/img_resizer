@@ -207,13 +207,14 @@
               class="cropper"
               :src="file"
               @ready="loading=false"
+              @error="loading=false"
               :stencil-props="{aspectRatio: custom.width/custom.height}"
               @change="change"
           ></cropper>
           </v-card>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn @click="dialog=false" color="primary"
+          <v-btn @click="dialog=false,loading=false" color="primary"
                  class="mb-3 text-none f-roboto px-3"
                  outlined>
             Cancel
